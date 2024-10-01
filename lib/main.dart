@@ -77,7 +77,7 @@ class _ParticleFallAnimationState extends State<ParticleFallAnimation>
         );
         _controllers.add(controller);
 
-        Animation<double> animation = Tween<double>(begin: 0, end: 1).animate(
+        Animation<double> animation = Tween<double>(begin: -0.1, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: Curves.easeInOut,
@@ -88,7 +88,7 @@ class _ParticleFallAnimationState extends State<ParticleFallAnimation>
         // Initialize all particle positions to start well above the screen
         _particlePositions.add(Offset(
             i * (MediaQuery.of(context).size.width*5 / numberOfParticles*5),
-            particleRadius * 10 // Start much above the screen (e.g., -240 for a radius of 60)
+            particleRadius * 20 // Start much above the screen (e.g., -240 for a radius of 60)
         ));
 
         // Initialize random directions for explosion
@@ -97,7 +97,7 @@ class _ParticleFallAnimationState extends State<ParticleFallAnimation>
     }
   }
 
-  // Get a random explosion direction (vector) for each particle
+  // Get a random explosion direction (vector) for each particle changes
   Offset _getRandomDirection() {
     final random = Random();
     double angle = random.nextDouble() * 2 * pi; // Random angle between 0 and 2*PI
@@ -242,6 +242,11 @@ class ParticlePainter extends CustomPainter {
       ..color = Colors.blue
       ..style = PaintingStyle.fill;
 
+    Paint borderPaint = Paint()
+      ..color = Colors.red // Set the border color to red
+      ..style = PaintingStyle.stroke // Set style to stroke for the border
+      ..strokeWidth = 30; // Set the border width
+
     double spacing = size.width / numberOfParticles;
     int numberOfLayers = (animations.length / numberOfParticles).floor();
 
@@ -263,10 +268,13 @@ class ParticlePainter extends CustomPainter {
         } else {
           // During animation: Calculate position based on animation progress
           x = spacing * i + spacing / 2;
-          y = (size.height - (layer + 1) * 2 * particleRadius + particleRadius+particleRadius) * animations[index].value;
+          y = (size.height - (layer + 1) * 2 * particleRadius + particleRadius + particleRadius + 30) * animations[index].value;
         }
 
-        canvas.drawCircle(Offset(x, y-particleRadius), particleRadius, paint);
+        // Draw the border circle
+        canvas.drawCircle(Offset(x, y - particleRadius), particleRadius, borderPaint);
+        // Draw the filled particle
+        canvas.drawCircle(Offset(x, y - particleRadius), particleRadius, paint);
       }
     }
   }
