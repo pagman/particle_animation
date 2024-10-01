@@ -5,11 +5,17 @@ void main() {
   runApp(const NewtonExampleApp());
 }
 
-class NewtonExampleApp extends StatelessWidget {
+class NewtonExampleApp extends StatefulWidget {
   const NewtonExampleApp({super.key});
 
   @override
+  State<NewtonExampleApp> createState() => _NewtonExampleAppState();
+}
+
+class _NewtonExampleAppState extends State<NewtonExampleApp> {
+  @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return MaterialApp(
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
@@ -26,20 +32,20 @@ class NewtonExampleApp extends StatelessWidget {
             maxOriginOffset: const Offset(1, 0),
             maxAngle: 90,
             maxEndScale: 1,
-            emitDuration: const Duration(milliseconds: 1000),
+            emitDuration: const Duration(seconds: 20),
             maxVelocity: Velocity.custom(1.05),
             minVelocity: Velocity.custom(1),
             maxFadeOutThreshold: 1,
-            maxParticleLifespan: const Duration(minutes: 1),
+            maxParticleLifespan: const Duration(days: 1),
             minAngle: 90,
             minEndScale: 1,
             minFadeOutThreshold: 1,
-            particleCount: 50,
+            particleCount: 80,
             particlesPerEmit: 1,
-            minParticleLifespan: const Duration(minutes: 1),
-            particleConfiguration: const ParticleConfiguration(
+            minParticleLifespan: const Duration(days: 1),
+            particleConfiguration:  ParticleConfiguration(
               shape: CircleShape(),
-              size: Size(60, 60),
+              size:  Size( width/10, width/10),
             ),
           ),
         ],
