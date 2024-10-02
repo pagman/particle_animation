@@ -39,15 +39,15 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
             // for  (var i = 0; i < _imageAssets.length; i++)
               RelativisticEffectConfiguration(
               gravity: Gravity(0.0,0.5),
-              particleCount: 90,
+              particleCount: 50,
               maxVelocity: Velocity.custom(0.6),
               minVelocity: Velocity.custom(0.6),
               minRestitution: Restitution.bouncyCastle,
               emitCurve: Curves.linear,
               particlesPerEmit: 1,
-                origin: Offset.zero,
-                maxOriginOffset: const Offset(1, 0),
-              // minOriginOffset: const Offset(0.2, 0.01),
+                origin: Offset.zero, //comment for image
+                maxOriginOffset: const Offset(1, 0), //comment for image
+              // maxOriginOffset: const Offset(0.2, 0.01), //comment for round
               emitDuration: const Duration(seconds: 1),
               maxAngle: 90,
               minAngle: -100,
@@ -59,9 +59,10 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
               minEndScale: 1,
               maxEndScale: 1.2,
               particleConfiguration: ParticleConfiguration(
-                shape: CircleShape(),
-                color: SingleParticleColor(color: Color(0xffF4B4FF)),
-                size: Size(width/(3 + Random().nextInt(5)),width/(3 + Random().nextInt(5))),
+                shape: CircleShape(), //comment for image
+                color: SingleParticleColor(color: Color(0xffF4B4FF)), //comment for image
+                // shape: _imageAssets[0], //comment for round
+                size: Size.square(width/5),
               ),
                 // startDelay: Duration(milliseconds: i * 3000),
               // origin: const Offset(0, 1),
