@@ -1,5 +1,5 @@
 import 'dart:ui' as ui;
-
+import 'dart:math';
 import 'package:flutter/material.dart' hide Velocity;
 import 'package:newton_particles/newton_particles.dart';
 
@@ -18,8 +18,9 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
   final _newtonKey = GlobalKey<NewtonState>();
   final List<ImageAssetShape> _imageAssets = [
     ImageAssetShape('images/bubble.png'),
-    ImageAssetShape('images/thumb_up_1.png'),
-    ImageAssetShape('images/thumb_up_1.png'),
+    ImageAssetShape('images/bubble2.png'),
+    ImageAssetShape('images/bubble3.png'),
+    ImageAssetShape('images/bubble4.png'),
   ];
 
   @override
@@ -34,16 +35,22 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
           key: _newtonKey,
           effectConfigurations: [
             // Emulate light balls falling
-            for  (var i = 0; i < _imageAssets.length; i++)
+            // for  (var i = 0; i <1; i++)
+            // for  (var i = 0; i < _imageAssets.length; i++)
               RelativisticEffectConfiguration(
-              gravity: Gravity.zero,
-              particleCount: 1,
-              maxVelocity: Velocity.snail,
-              emitCurve: Curves.decelerate,
+              gravity: Gravity(0.0,0.5),
+              particleCount: 90,
+              maxVelocity: Velocity.custom(0.6),
+              minVelocity: Velocity.custom(0.6),
+              minRestitution: Restitution.bouncyCastle,
+              emitCurve: Curves.linear,
               particlesPerEmit: 1,
-              origin: const Offset(0.5, 0.01),
-              emitDuration: const Duration(seconds: 2),
+                origin: Offset.zero,
+                maxOriginOffset: const Offset(1, 0),
+              // minOriginOffset: const Offset(0.2, 0.01),
+              emitDuration: const Duration(seconds: 1),
               maxAngle: 90,
+              minAngle: -100,
               maxParticleLifespan: const Duration(hours: 3),
               minFadeOutThreshold: 0.6,
               maxFadeOutThreshold: 0.8,
@@ -52,10 +59,11 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
               minEndScale: 1,
               maxEndScale: 1.2,
               particleConfiguration: ParticleConfiguration(
-                shape: _imageAssets[i],
-                size: Size(width / 5, width / 5),
+                shape: CircleShape(),
+                color: SingleParticleColor(color: Color(0xffF4B4FF)),
+                size: Size(width/(3 + Random().nextInt(5)),width/(3 + Random().nextInt(5))),
               ),
-                startDelay: Duration(milliseconds: i * 5000),
+                // startDelay: Duration(milliseconds: i * 3000),
               // origin: const Offset(0, 1),
             ),
           ],
