@@ -26,12 +26,12 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
   @override
   Widget build(BuildContext context) {
     int particlesPerRow = 5;
-    final width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     print("/////////////////////////////////////");
     print((MediaQuery.of(context).size.height/(width/6)));
     print(width/5.toInt());
     print("/////////////////////////////////////");
-    final count = (particlesPerRow+1)*((MediaQuery.of(context).size.height/(width/(particlesPerRow+2))));
+    final count = (particlesPerRow)*((MediaQuery.of(context).size.height/(width/(particlesPerRow+1)).ceil()).ceil());
     print("the total number of balls is: ${count}");
     int BPS = (count/0.06).toInt();
     // print(count/0.06);
@@ -64,10 +64,10 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
               maxParticleLifespan: const Duration(hours: 3),
               minFadeOutThreshold: 0.6,
               maxFadeOutThreshold: 0.8,
-              minBeginScale: 0.7,
-              maxBeginScale: 0.9,
+              minBeginScale: 1,
+              maxBeginScale: 1,
               minEndScale: 1,
-              maxEndScale: 1.2,
+              maxEndScale: 1,
               particleConfiguration: ParticleConfiguration(
                 shape: CircleShape(), //comment for image
                 color: SingleParticleColor(color: Color(0xffF4B4FF)), //comment for image
