@@ -25,7 +25,7 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
 
   @override
   Widget build(BuildContext context) {
-    int particlesPerRow = 5;
+    int particlesPerRow = 7;
     double width = MediaQuery.of(context).size.width;
     print("/////////////////////////////////////");
     print((MediaQuery.of(context).size.height/(width/6)));
@@ -58,16 +58,16 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
                 origin: Offset.zero, //comment for image
                 maxOriginOffset: const Offset(1, 0), //comment for image
               // maxOriginOffset: const Offset(0.2, 0.01), //comment for round
-              emitDuration: Duration(milliseconds: BPS),
+              emitDuration: Duration(milliseconds: 100),
               maxAngle: 90,
               minAngle: -100,
               maxParticleLifespan: const Duration(hours: 3),
               minFadeOutThreshold: 0.6,
               maxFadeOutThreshold: 0.8,
-              minBeginScale: 1,
-              maxBeginScale: 1,
-              minEndScale: 1,
-              maxEndScale: 1,
+              minBeginScale: 0.6,
+              maxBeginScale: 1.4,
+              minEndScale: 0.6,
+              maxEndScale: 1.4,
               particleConfiguration: ParticleConfiguration(
                 shape: CircleShape(), //comment for image
                 color: SingleParticleColor(color: Color(0xffF4B4FF)), //comment for image
