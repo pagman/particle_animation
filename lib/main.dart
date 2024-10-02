@@ -25,7 +25,17 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
 
   @override
   Widget build(BuildContext context) {
+    int particlesPerRow = 5;
     final width = MediaQuery.of(context).size.width;
+    print("/////////////////////////////////////");
+    print((MediaQuery.of(context).size.height/(width/6)));
+    print(width/5.toInt());
+    print("/////////////////////////////////////");
+    final count = (particlesPerRow+1)*((MediaQuery.of(context).size.height/(width/(particlesPerRow+2))));
+    print("the total number of balls is: ${count}");
+    int BPS = (count/0.06).toInt();
+    // print(count/0.06);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -38,17 +48,17 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
             // for  (var i = 0; i <1; i++)
             // for  (var i = 0; i < _imageAssets.length; i++)
               RelativisticEffectConfiguration(
-              gravity: Gravity(0.0,0.5),
-              particleCount: 50,
+              gravity: Gravity(0.0,0.2),
+              particleCount: count.toInt(),
               maxVelocity: Velocity.custom(0.6),
               minVelocity: Velocity.custom(0.6),
-              minRestitution: Restitution.bouncyCastle,
+              minRestitution: Restitution.superBall,
               emitCurve: Curves.linear,
               particlesPerEmit: 1,
                 origin: Offset.zero, //comment for image
                 maxOriginOffset: const Offset(1, 0), //comment for image
               // maxOriginOffset: const Offset(0.2, 0.01), //comment for round
-              emitDuration: const Duration(seconds: 1),
+              emitDuration: Duration(milliseconds: BPS),
               maxAngle: 90,
               minAngle: -100,
               maxParticleLifespan: const Duration(hours: 3),
@@ -62,7 +72,7 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
                 shape: CircleShape(), //comment for image
                 color: SingleParticleColor(color: Color(0xffF4B4FF)), //comment for image
                 // shape: _imageAssets[0], //comment for round
-                size: Size.square(width/5),
+                size: Size(width/particlesPerRow,width/particlesPerRow),
               ),
                 // startDelay: Duration(milliseconds: i * 3000),
               // origin: const Offset(0, 1),
