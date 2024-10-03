@@ -35,7 +35,7 @@ class _NewtonExampleAppState extends State<NewtonExampleApp> {
     print("the total number of balls is: ${count}");
     int BPS = (count/0.06).toInt();
     // print(count/0.06);
-
+    // material app
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
