@@ -1,84 +1,232 @@
-import 'dart:ui' as ui;
-import 'dart:math';
 import 'package:flutter/material.dart' hide Velocity;
+import 'package:flutter/services.dart';
 import 'package:newton_particles/newton_particles.dart';
 
 void main() {
-  runApp(const NewtonExampleApp());
+  runApp(const ThumbUpExampleApp());
 }
 
-class NewtonExampleApp extends StatefulWidget {
-  const NewtonExampleApp({super.key});
+class ThumbUpExampleApp extends StatelessWidget {
+  const ThumbUpExampleApp({super.key});
 
   @override
-  State<NewtonExampleApp> createState() => _NewtonExampleAppState();
+  Widget build(BuildContext context) {
+    const primaryColor = <int, Color>{
+      50: Color.fromRGBO(27, 27, 29, .1),
+      100: Color.fromRGBO(27, 27, 29, .2),
+      200: Color.fromRGBO(27, 27, 29, .3),
+      300: Color.fromRGBO(27, 27, 29, .4),
+      400: Color.fromRGBO(27, 27, 29, .5),
+      500: Color.fromRGBO(27, 27, 29, .6),
+      600: Color.fromRGBO(27, 27, 29, .7),
+      700: Color.fromRGBO(27, 27, 29, .8),
+      800: Color.fromRGBO(27, 27, 29, .9),
+      900: Color.fromRGBO(27, 27, 29, 1),
+    };
+    return MaterialApp(
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: const MaterialColor(
+          0x1b1b1d,
+          primaryColor,
+        ),
+        canvasColor: const Color(0xff1b1b1d),
+      ),
+      home: const ThumbUpExample(),
+    );
+  }
 }
 
-class _NewtonExampleAppState extends State<NewtonExampleApp> {
+class ThumbUpExample extends StatefulWidget {
+  const ThumbUpExample({super.key});
+
+  @override
+  State<ThumbUpExample> createState() => _ThumbUpExampleState();
+}
+
+class _ThumbUpExampleState extends State<ThumbUpExample> {
   final _newtonKey = GlobalKey<NewtonState>();
+
   final List<ImageAssetShape> _imageAssets = [
-    ImageAssetShape('images/bubble.png'),
-    ImageAssetShape('images/bubble2.png'),
-    ImageAssetShape('images/bubble3.png'),
-    ImageAssetShape('images/bubble4.png'),
+    ImageAssetShape('images/thumb_up_1.png'),
+    ImageAssetShape('images/thumb_up_2.png'),
+    ImageAssetShape('images/thumb_up_3.png'),
   ];
+  final _emojiSize = 50.0;
+  final _btnSize = 50.0;
+  int _emit = 1;
+  int _duration = 1000000000000;
+  bool isPaused = false; // Track if the animation is paused
+
+  RelativisticEffectConfiguration currentActiveEffectConfiguration(int count, Duration delay, double width, int particlesPerRow) {
+    return RelativisticEffectConfiguration(
+      gravity: Gravity(0.0, 0.2),
+      particleCount: count.toInt(),
+      maxVelocity: Velocity.custom(0.6),
+      minVelocity: Velocity.custom(0.6),
+      minRestitution: Restitution.superBall,
+      emitCurve: Curves.linear,
+      particlesPerEmit: _emit,
+      origin: const Offset(0.5, 0), //comment for image
+      emitDuration: delay,
+      maxAngle: 90,
+      minAngle: -100,
+      maxParticleLifespan: const Duration(hours: 3),
+      minFadeOutThreshold: 0.6,
+      maxFadeOutThreshold: 0.8,
+      minBeginScale: 0.6,
+      maxBeginScale: 1.4,
+      minEndScale: 0.6,
+      maxEndScale: 1.4,
+      particleConfiguration: ParticleConfiguration(
+        shape: CircleShape(), //comment for image
+        color: const SingleParticleColor(color: Color(0xffF4B4FF)), //comment for image
+        size: Size(width / particlesPerRow, width / particlesPerRow),
+      ),
+    );
+  }
+
+  DeterministicEffectConfiguration currentActiveEffectConfigurationExplode(int index, Duration delay, double width, int particlesPerRow) {
+    return DeterministicEffectConfiguration(
+      particleCount: 100,
+      particlesPerEmit: 100,
+      distanceCurve: Curves.slowMiddle,
+      emitCurve: Curves.fastOutSlowIn,
+      fadeInCurve: Curves.easeIn,
+      fadeOutCurve: Curves.easeOut,
+      emitDuration: const Duration(milliseconds: 250),
+      minAngle: -180,
+      maxAngle: 180,
+      minDistance: 120,
+      maxDistance: 320,
+      maxParticleLifespan: const Duration(seconds: 5),
+      minFadeOutThreshold: 0.6,
+      maxFadeOutThreshold: 0.8,
+      minBeginScale: 0.7,
+      maxBeginScale: 0.9,
+      minEndScale: 1,
+      maxEndScale: 1.2,
+      particleConfiguration: ParticleConfiguration(
+        shape: CircleShape(), //comment for image
+        color: const SingleParticleColor(color: Color(0xffF4B4FF)), //comment for image
+        size: Size(width / particlesPerRow, width / particlesPerRow),
+      ),
+      startDelay: delay,
+      origin: const Offset(0.5, 0.5),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     int particlesPerRow = 7;
     double width = MediaQuery.of(context).size.width;
-    print("/////////////////////////////////////");
-    print((MediaQuery.of(context).size.height/(width/6)));
-    print(width/5.toInt());
-    print("/////////////////////////////////////");
-    final count = (particlesPerRow)*((MediaQuery.of(context).size.height/(width/(particlesPerRow+1)).ceil()).ceil());
-    print("the total number of balls is: ${count}");
-    int BPS = (count/0.06).toInt();
-    // print(count/0.06);
-    // material app
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Color(0xff3A3A3A),
-        body:
-        Newton(
-          key: _newtonKey,
-          effectConfigurations: [
-            // Emulate light balls falling
-            // for  (var i = 0; i <1; i++)
-            // for  (var i = 0; i < _imageAssets.length; i++)
-              RelativisticEffectConfiguration(
-              gravity: Gravity(0.0,0.2),
-              particleCount: count.toInt(),
-              maxVelocity: Velocity.custom(0.6),
-              minVelocity: Velocity.custom(0.6),
-              minRestitution: Restitution.superBall,
-              emitCurve: Curves.linear,
-              particlesPerEmit: 1,
-                origin: Offset.zero, //comment for image
-                maxOriginOffset: const Offset(1, 0), //comment for image
-              // maxOriginOffset: const Offset(0.2, 0.01), //comment for round
-              emitDuration: Duration(milliseconds: 100),
-              maxAngle: 90,
-              minAngle: -100,
-              maxParticleLifespan: const Duration(hours: 3),
-              minFadeOutThreshold: 0.6,
-              maxFadeOutThreshold: 0.8,
-              minBeginScale: 0.6,
-              maxBeginScale: 1.4,
-              minEndScale: 0.6,
-              maxEndScale: 1.4,
-              particleConfiguration: ParticleConfiguration(
-                shape: CircleShape(), //comment for image
-                color: SingleParticleColor(color: Color(0xffF4B4FF)), //comment for image
-                // shape: _imageAssets[0], //comment for round
-                size: Size(width/particlesPerRow,width/particlesPerRow),
-              ),
-                // startDelay: Duration(milliseconds: i * 3000),
-              // origin: const Offset(0, 1),
+    int count = 15;
+
+
+
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Newton(
+            key: _newtonKey,
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: _btnSize,
+                  height: _btnSize,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _emit = 1;
+                        isPaused = false; // Resuming, so not paused anymore
+                      });
+                      _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration(15, const Duration(seconds: 1), width, particlesPerRow));
+                    },
+                    child: Container(
+                      width: _btnSize,
+                      height: _btnSize,
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(_btnSize / 2),
+                      ),
+                      child: const Center(child: Text('Start')),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: _btnSize,
+                  height: _btnSize,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!isPaused) {
+                        setState(() {
+                          isPaused = true;
+                        });
+                        _newtonKey.currentState?.clearEffects(); // Stop emitting new particles
+                      }
+                    },
+                    child: Container(
+                      width: _btnSize,
+                      height: _btnSize,
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(_btnSize / 2),
+                      ),
+                      child: const Center(child: Text('Pause')),
+                    ),
+                  ),
+                ),
+                // SizedBox(
+                //   width: _btnSize,
+                //   height: _btnSize,
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       if (isPaused) {
+                //         setState(() {
+                //           isPaused = false;
+                //         });
+                //         _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration(15, const Duration(seconds: 1), width, particlesPerRow));
+                //       }
+                //     },
+                //     child: Container(
+                //       width: _btnSize,
+                //       height: _btnSize,
+                //       decoration: BoxDecoration(
+                //         color: Colors.red.withOpacity(0.8),
+                //         borderRadius: BorderRadius.circular(_btnSize / 2),
+                //       ),
+                //       child: const Center(child: Text('Resume')),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(
+                  width: _btnSize,
+                  height: _btnSize,
+                  child: GestureDetector(
+                    onTap: () {
+                      _newtonKey.currentState
+                          ?.addEffect(currentActiveEffectConfigurationExplode(0, Duration(milliseconds: 1 * 2000), width, 15));
+                    },
+                    child: Container(
+                      width: _btnSize,
+                      height: _btnSize,
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(_btnSize / 2),
+                      ),
+                      child: const Center(child: Text('Stop')),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
