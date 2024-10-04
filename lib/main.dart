@@ -88,7 +88,7 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
   RelativisticEffectConfiguration currentActiveEffectConfiguration1(
       int count, Duration delay, double width, int particlesPerRow) {
     return RelativisticEffectConfiguration(
-      gravity: Gravity(0.0, 0.2),
+      gravity: Gravity(0.0, 0.0),
       particleCount: count.toInt(),
       maxVelocity: Velocity.custom(0.6),
       minVelocity: Velocity.custom(0.6),
@@ -98,8 +98,8 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
       // origin: const Offset(0.5, 0), //comment for image
       origin: const Offset(0.5, 0.01),
       emitDuration: delay,
-      maxAngle: 90,
-      minAngle: -100,
+      maxAngle: -90,
+      minAngle: -90,
       maxParticleLifespan: const Duration(hours: 3),
       minFadeOutThreshold: 0.6,
       maxFadeOutThreshold: 0.8,
