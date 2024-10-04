@@ -31,6 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
   newton_particles: ^0.2.2
+  image: ^4.2.0
+  path_provider: ^2.1.4
+  image_picker: ^0.8.5+3
 
 
 
