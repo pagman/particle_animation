@@ -122,11 +122,11 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
       gravity: Gravity(0.0, 0.2),
       particleCount: count.toInt(),
       maxVelocity: Velocity.custom(0.6),
-      minVelocity: Velocity.custom(0.6),
+      minVelocity: Velocity.custom(0.1),
       minRestitution: Restitution.superBall,
-      emitCurve: Curves.linear,
+      // emitCurve: Curves.linear,
       particlesPerEmit: _emit,
-      origin: const Offset(0.5, 0),
+      origin:  Offset(0.5, 0),
       //comment for image
       // origin: const Offset(0.5, 0.01),
       emitDuration: delay,
@@ -135,10 +135,11 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
       maxParticleLifespan: const Duration(hours: 3),
       minFadeOutThreshold: 0.6,
       maxFadeOutThreshold: 0.8,
-      // minBeginScale: 0.6,
-      // maxBeginScale: 1.4,
-      // minEndScale: 0.6,
-      // maxEndScale: 1.4,
+      minBeginScale: 0.6,
+      maxBeginScale: 1.4,
+      minEndScale: 0.6,
+      maxEndScale: 1.4,
+      fadeInCurve: Curves.easeIn,
       particleConfiguration: ParticleConfiguration(
         shape: CircleShape(),
         //comment for image
@@ -210,12 +211,7 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
                       //image as particles
                       // _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration1(50, const Duration(seconds: 1), width, particlesPerRow));
                       //balls as particles
-                      _newtonKey.currentState?.addEffect(
-                          currentActiveEffectConfiguration2(
-                              50,
-                              const Duration(seconds: 1),
-                              width,
-                              particlesPerRow));
+                      _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration2(50,const Duration(seconds: 1),width,particlesPerRow));
                     },
                     child: Container(
                       width: _btnSize,
