@@ -209,9 +209,9 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
                         isPaused = false; // Resuming, so not paused anymore
                       });
                       //image as particles
-                      // _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration1(50, const Duration(seconds: 1), width, particlesPerRow));
+                      _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration1(50, const Duration(seconds: 1), width, particlesPerRow));
                       //balls as particles
-                      _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration2(50,const Duration(seconds: 1),width,particlesPerRow));
+                      // _newtonKey.currentState?.addEffect(currentActiveEffectConfiguration2(50,const Duration(seconds: 1),width,particlesPerRow));
                     },
                     child: Container(
                       width: _btnSize,
