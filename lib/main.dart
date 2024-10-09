@@ -84,7 +84,7 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
   int _emit = 1;
   int _duration = 1000000000000;
   bool isPaused = false; // Track if the animation is paused
-
+ // real physics with image as particle
   RelativisticEffectConfiguration currentActiveEffectConfiguration1(
       int count, Duration delay, double width, int particlesPerRow) {
     return RelativisticEffectConfiguration(
@@ -115,7 +115,7 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
       ),
     );
   }
-
+ // real physics with balls as particles
   RelativisticEffectConfiguration currentActiveEffectConfiguration2(
       int count, Duration delay, double width, int particlesPerRow) {
     return RelativisticEffectConfiguration(
@@ -149,7 +149,7 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
       ),
     );
   }
-
+ //explosion effect
   DeterministicEffectConfiguration currentActiveEffectConfigurationExplode(
       int index, Duration delay, double width, int particlesPerRow) {
     return DeterministicEffectConfiguration(
