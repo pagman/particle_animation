@@ -59,7 +59,7 @@ class _ThumbUpExampleState extends State<ThumbUpExample> {
 
   Future<void> _createImage() async {
     // Load image as byte data
-    final ByteData data = await rootBundle.load('images/bubble3.png');
+    final ByteData data = await rootBundle.load('images/bubble6.png');
 
     // Convert ByteData to Uint8List
     final Uint8List bytes = data.buffer.asUint8List();
